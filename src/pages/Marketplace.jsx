@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import ProductCard from '../components/ProductCard/ProductCard.jsx';
 import { FaSearch } from 'react-icons/fa';
 
 const Marketplace = () => {
+  const location = useLocation();
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [filtros, setFiltros] = useState({
-    categoria: '',
+    categoria: location.state?.selectedCategory || '',
     busqueda: ''
   });
   const [loading, setLoading] = useState(true);
@@ -29,8 +31,7 @@ const Marketplace = () => {
         const categoriasData = await categoriasRes.json();
 
         setProductos(productosData);
-        // Extraer solo los nombres de las categorías
-        setCategorias(categoriasData.map(cat => cat.nombre));
+        setCategorias(categoriasData);
         setError(null);
       } catch (error) {
         console.error('Error al cargar datos:', error);
@@ -54,7 +55,7 @@ const Marketplace = () => {
   const filtrarProductos = () => {
     return productos.filter(producto => {
       // Filtro por categoría
-      if (filtros.categoria && producto.categoria.nombre !== filtros.categoria) {
+      if (filtros.categoria && producto.categoria?.nombre !== filtros.categoria) {
         return false;
       }
       
@@ -64,7 +65,7 @@ const Marketplace = () => {
         const coincide = 
           producto.nombre.toLowerCase().includes(busquedaLower) ||
           producto.descripcion.toLowerCase().includes(busquedaLower) ||
-          producto.categoria.nombre.toLowerCase().includes(busquedaLower);
+          producto.categoria?.nombre.toLowerCase().includes(busquedaLower);
         if (!coincide) return false;
       }
       
@@ -92,7 +93,7 @@ const Marketplace = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Barra de búsqueda */}
+      {/* Barra de búsqueda y filtros */}
       <div className="mb-8">
         <div className="flex gap-4">
           <div className="flex-1 relative">
@@ -102,52 +103,39 @@ const Marketplace = () => {
               value={filtros.busqueda}
               onChange={handleFiltroChange}
               placeholder="Buscar productos..."
-              className="w-full pl-10 pr-4 py-2 border rounded-lg"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-primary"
             />
             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
-        </div>
-      </div>
-
-      {/* Panel de filtros */}
-      <div className="mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
-          {/* Categoría */}
-          <div>
-            <h3 className="font-semibold mb-2">Categorías</h3>
-            <select
-              name="categoria"
-              value={filtros.categoria}
-              onChange={handleFiltroChange}
-              className="w-full p-2 border rounded-lg"
-            >
-              <option value="">Todas las categorías</option>
-              {categorias.map(categoria => (
-                <option key={categoria} value={categoria}>
-                  {categoria}
-                </option>
-              ))}
-            </select>
-          </div>
+          <select
+            name="categoria"
+            value={filtros.categoria}
+            onChange={handleFiltroChange}
+            className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-primary"
+          >
+            <option value="">Todas las categorías</option>
+            {categorias.map(categoria => (
+              <option key={categoria.id} value={categoria.nombre}>
+                {categoria.nombre}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
       {/* Grid de productos */}
-      <div className="md:col-span-4">
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
-          {productosFiltrados.map((producto, index) => (
-            <ProductCard key={index} producto={producto} />
-          ))}
-        </div>
-
-        {productosFiltrados.length === 0 && (
-          <div className="text-center py-10">
-            <h2 className="text-2xl text-gray-600">
-              No se encontraron productos que coincidan con los filtros
-            </h2>
-          </div>
-        )}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {productosFiltrados.map(producto => (
+          <ProductCard key={producto.id} producto={producto} />
+        ))}
       </div>
+
+      {/* Mensaje cuando no hay productos */}
+      {productosFiltrados.length === 0 && (
+        <div className="text-center py-10">
+          <h2 className="text-2xl text-gray-600">No se encontraron productos</h2>
+        </div>
+      )}
     </div>
   );
 };

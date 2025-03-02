@@ -1,11 +1,177 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaCheckCircle, FaWhatsapp } from 'react-icons/fa';
 import { WHATSAPP_NUMBER } from '../config/constants';
+import { motion } from 'framer-motion';
+import { FaSearch, FaShoppingCart, FaCalendarAlt, FaTruck } from 'react-icons/fa';
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (categoria) => {
+    navigate('/productos', { state: { selectedCategory: categoria } });
+  };
+
   return (
-    <div className="animate-fadeIn">
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <section className="hero-section relative h-[600px] flex items-center justify-center text-white">
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="relative z-10 text-center">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl font-bold mb-4"
+          >
+            Brincolinas Franco
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl mb-8"
+          >
+            La mejor opción para tus eventos
+          </motion.p>
+          <motion.button 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            onClick={() => navigate('/productos')}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 mr-4"
+          >
+            Ver Productos
+          </motion.button>
+
+          <motion.button 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=Hola,%20necesito%20m%C3%A1s%20informaci%C3%B3n%20sobre%20los%20productos%20y%20servicios%20que%20ofrecen.`)}
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition duration-300"
+          >
+            Contactar por WhatsApp
+          </motion.button>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12">¿Por qué elegirnos?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              className="text-center p-6"
+            >
+              <FaSearch className="text-4xl text-primary mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Gran Variedad</h3>
+              <p className="text-gray-600">Amplia selección de productos para todo tipo de eventos</p>
+            </motion.div>
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              className="text-center p-6"
+            >
+              <FaShoppingCart className="text-4xl text-primary mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Fácil Reserva</h3>
+              <p className="text-gray-600">Proceso de reserva simple y rápido</p>
+            </motion.div>
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              className="text-center p-6"
+            >
+              <FaCalendarAlt className="text-4xl text-primary mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Disponibilidad</h3>
+              <p className="text-gray-600">Reserva con anticipación para asegurar tu fecha</p>
+            </motion.div>
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              className="text-center p-6"
+            >
+              <FaTruck className="text-4xl text-primary mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Entrega Incluida</h3>
+              <p className="text-gray-600">Servicio de entrega e instalación</p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Popular Categories */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12">Categorías Populares</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              className="category-card cursor-pointer"
+              onClick={() => handleCategoryClick('Brincolina sencilla')}
+            >
+              <div className="category-image brincolina-sencilla"></div>
+              <h3 className="text-xl font-semibold mt-4">Brincolinas</h3>
+            </motion.div>
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              className="category-card cursor-pointer"
+              onClick={() => handleCategoryClick('Mesas')}
+            >
+              <div className="category-image mesas"></div>
+              <h3 className="text-xl font-semibold mt-4">Mesas</h3>
+            </motion.div>
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              className="category-card cursor-pointer"
+              onClick={() => handleCategoryClick('Sillas')}
+            >
+              <div className="category-image sillas"></div>
+              <h3 className="text-xl font-semibold mt-4">Sillas</h3>
+            </motion.div>
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              className="category-card cursor-pointer"
+              onClick={() => handleCategoryClick('Portacool')}
+            >
+              <div className="category-image portacool"></div>
+              <h3 className="text-xl font-semibold mt-4">Portacool</h3>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Características */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center mb-12">
+            ¿Por qué elegirnos?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="card p-6">
+              <FaCheckCircle className="text-blue-600 text-3xl mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Calidad Garantizada</h3>
+              <p className="text-gray-600">
+                Todos nuestros productos son de la más alta calidad y reciben
+                mantenimiento constante.
+              </p>
+            </div>
+            <div className="card p-6">
+              <FaCheckCircle className="text-blue-600 text-3xl mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Entrega Puntual</h3>
+              <p className="text-gray-600">
+                Nos aseguramos de entregar e instalar todo a tiempo para tu evento.
+              </p>
+            </div>
+            <div className="card p-6">
+              <FaCheckCircle className="text-blue-600 text-3xl mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Precios Competitivos</h3>
+              <p className="text-gray-600">
+                Ofrecemos los mejores precios del mercado sin comprometer la
+                calidad.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Hero Section */}
       <section className="relative bg-blue-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
@@ -46,103 +212,6 @@ const Home = () => {
               fill="white"
             />
           </svg>
-        </div>
-      </section>
-
-      {/* Características */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            ¿Por qué elegirnos?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="card p-6">
-              <FaCheckCircle className="text-blue-600 text-3xl mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Calidad Garantizada</h3>
-              <p className="text-gray-600">
-                Todos nuestros productos son de la más alta calidad y reciben
-                mantenimiento constante.
-              </p>
-            </div>
-            <div className="card p-6">
-              <FaCheckCircle className="text-blue-600 text-3xl mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Entrega Puntual</h3>
-              <p className="text-gray-600">
-                Nos aseguramos de entregar e instalar todo a tiempo para tu evento.
-              </p>
-            </div>
-            <div className="card p-6">
-              <FaCheckCircle className="text-blue-600 text-3xl mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Precios Competitivos</h3>
-              <p className="text-gray-600">
-                Ofrecemos los mejores precios del mercado sin comprometer la
-                calidad.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Categorías Populares */}
-      <section className="bg-gray-100 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Categorías Populares
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <Link
-              to="/productos?categoria=brincolines"
-              className="card overflow-hidden group"
-            >
-              <img
-                src="/images/brincolines.jpg"
-                alt="Brincolines"
-                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-semibold">Brincolines</h3>
-              </div>
-            </Link>
-            <Link
-              to="/productos?categoria=mesas"
-              className="card overflow-hidden group"
-            >
-              <img
-                src="/images/mesas.jpg"
-                alt="Mesas"
-                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-semibold">Mesas</h3>
-              </div>
-            </Link>
-            <Link
-              to="/productos?categoria=sillas"
-              className="card overflow-hidden group"
-            >
-              <img
-                src="/images/sillas.jpg"
-                alt="Sillas"
-                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-semibold">Sillas</h3>
-              </div>
-            </Link>
-            <Link
-              to="/productos?categoria=toldos"
-              className="card overflow-hidden group"
-            >
-              <img
-                src="/images/toldos.jpg"
-                alt="Toldos"
-                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-semibold">Toldos</h3>
-              </div>
-            </Link>
-          </div>
         </div>
       </section>
 
