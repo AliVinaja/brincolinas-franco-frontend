@@ -58,7 +58,7 @@
 }
 
 .link:hover {
-  color: white;
+  font-weight: bold;
   transform: translateX(5px);
 }
 
